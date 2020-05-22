@@ -6,15 +6,15 @@ using UnityEngine;
 /// </summary>
 public class Manager : MonoBehaviour {
 
-    public GameObject boomerPrefab;
-    public GameObject hex;
+    public GameObject coronaPrefab;
+    public GameObject player;
 
     private bool flag_startTrainingRound = true;
 
     private int populationSize = 50;
     private int generationNumber = 0;
     private int[] layers = new int[] { 1, 10, 10, 1 }; //1 input and 1 output
-    private List<Boomerang> coronasList = null;
+    private List<AIController> coronasList = null;
     private List<NeuralNetwork> nets = new List<NeuralNetwork>();
 
     /// <summary>
@@ -43,7 +43,7 @@ public class Manager : MonoBehaviour {
     private void HandleLeftMouseButtonDown()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        hex.transform.position = mousePosition;
+        player.transform.position = mousePosition;
     }
 
     /// <summary>
@@ -100,12 +100,12 @@ public class Manager : MonoBehaviour {
         }
 
         // Recreate the kist and it's contents
-        coronasList = new List<Boomerang>();
+        coronasList = new List<AIController>();
 
         for (int i = 0; i < populationSize; i++)
         {
-            Boomerang boomer = ((GameObject)Instantiate(boomerPrefab, new Vector3(UnityEngine.Random.Range(-10f,10f), UnityEngine.Random.Range(-10f, 10f), 0),boomerPrefab.transform.rotation)).GetComponent<Boomerang>();
-            boomer.Init(nets[i],hex.transform);
+            AIController boomer = ((GameObject)Instantiate(coronaPrefab, new Vector3(UnityEngine.Random.Range(-10f,10f), UnityEngine.Random.Range(-10f, 10f), 0),coronaPrefab.transform.rotation)).GetComponent<AIController>();
+            boomer.Init(nets[i],player.transform);
             coronasList.Add(boomer);
         }
 
